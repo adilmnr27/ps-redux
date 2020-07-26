@@ -1,3 +1,4 @@
+# The below readme was directly picked up from the course exercise folders which were available at Pluralsight.
 # Starter Kit for [Building Applications in React and Redux](http://www.pluralsight.com/author/cory-house) on Pluralsight
 
 ## Get Started

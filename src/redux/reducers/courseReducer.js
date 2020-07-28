@@ -1,8 +1,9 @@
+import actionTypes from "../actions/actionTypes";
 //initializing state to an empty array
 export default function courseReducer(state = [], action) {
     
     switch (action.type) {
-        case "CREATE_COURSE":{
+        case actionTypes.CREATE_COURSE:{
             
             /// What i think is going on
             //...state spreading the state state array.

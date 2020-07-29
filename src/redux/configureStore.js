@@ -3,7 +3,7 @@
 import { createStore,applyMiddleware, compose } from 'redux'; //middleware is not necessary
 import rootReducer from './reducers/rootReducer';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
-
+import thunk from 'redux-thunk';
 
 //applyMiddleware(reduxImmutableStateInvariant() do not foreget parenthesesis
 export default function configureStore(initialState){
@@ -11,6 +11,6 @@ export default function configureStore(initialState){
     return createStore(
         rootReducer,
         initialState,
-        composeEnhancers(applyMiddleware(reduxImmutableStateInvariant()))
+        composeEnhancers(applyMiddleware(thunk,reduxImmutableStateInvariant()))
         );
 }

@@ -1,20 +1,22 @@
 import React from "react";
 import { connect } from 'react-redux'
 import * as courseActions from '../../redux/actions/courseAction';
+import * as authorActions from '../../redux/actions/authorAction';
 import CourseList from './CourseList';
 
 class CoursesPage extends React.Component {
 
   componentDidMount() {
-    
+
     this.props.dispatch(courseActions.loadCourses()).catch(err => { throw err })
+    this.props.dispatch(authorActions.loadAuthors()).catch(err => { throw err })
   }
 
   render() {
     return (
       <>
-      <h2>Courses</h2>
-      <CourseList courses={this.props.courses}></CourseList>
+        <h2>Courses</h2>
+        <CourseList courses={this.props.courses}></CourseList>
       </>
 
     );
@@ -24,8 +26,15 @@ class CoursesPage extends React.Component {
 
 function mapStateToProps(state) {
   //here we are passing props to the react component
+
   return {
-    courses: state.courses //expose only which is requireed..or react will re render everything
+    courses: state.authors.length === 0 ? [] : state.courses.map(_course => {
+      return {
+        ..._course,
+        authorName: state.authors.find(a => a.id === _course.authorId).name
+      }
+    }),
+    authors: state.authors
   }
 }
 

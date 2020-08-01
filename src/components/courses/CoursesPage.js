@@ -8,8 +8,13 @@ class CoursesPage extends React.Component {
 
   componentDidMount() {
 
-    this.props.dispatch(courseActions.loadCourses()).catch(err => { throw err })
+    if(this.props.courses.length===0){
+      this.props.dispatch(courseActions.loadCourses()).catch(err => { throw err })
+    }
+   if(this.props.authors.length===0){
     this.props.dispatch(authorActions.loadAuthors()).catch(err => { throw err })
+   }
+
   }
 
   render() {

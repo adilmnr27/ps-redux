@@ -4,17 +4,22 @@ import initialState from './initialState';
 export default function courseReducer(state = initialState.courses, action) {
 
     switch (action.type) {
-        case actionTypes.CREATE_COURSE: {
+        case actionTypes.CREATE_COURSE_SUCCESS: {
 
             /// What i think is going on
             //...state spreading the state state array.
             //...action.course creating a copy of the action..course
             //adding the state objects and action.course in a single array..;like the gather operator
             let stateArray = [...state, { ...action.course }]
-            return stateArray;
+            return stateArray; 
         }
 
         //please read normalizing state shape for better performance
+
+        case actionTypes.UPDATE_COURSE:
+            state.map(course=>course.id===action.course.id?action.course:course)//return is implied as it is a single expression without curly brackets
+            
+            return state;
 
         case actionTypes.LOAD_COURSES_SUCCESS:
             return action.courses;

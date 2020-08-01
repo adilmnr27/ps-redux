@@ -15,12 +15,14 @@ function ManageCourse(props) {
   useEffect(() => {
     if (props.courses.length === 0) {
       props.loadCourses().catch(err => { throw err })
+    } else{
+      setCourse({...props.course}) // so that if we directly reload this page , it will populate
     }
     if (props.authors.length === 0) {
       props.loadAuthors().catch(err => { throw err })
     }
 
-  }, [])
+  }, [props.course])
 
   function handleChange(event) {
     //TODO find out what happens when we do not do destructuring
@@ -45,7 +47,8 @@ function ManageCourse(props) {
 
   function handleSave(event){
     event.preventDefault();
-    props.saveCourse(course);
+    props.saveCourse(course).then( ()=> {props.history.push("/courses")})
+   
   }
 
 
@@ -62,14 +65,21 @@ ManageCourse.propTypes = {
   courses: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
-  saveCourse: PropTypes.func.isRequired
+  saveCourse: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 }
 
-function mapStateToProps(state) {
+function getCourseBySlug(courses,slug){
+ return courses.find(_course=> _course.slug===slug || null )
+}
+
+function mapStateToProps(state,ownProps) {
   //here we are passing props to the react component
+  const slug = ownProps.match.params.slug;
+  const course = slug && state.courses.length>0 ? getCourseBySlug(state.courses,slug):newCourse
 
   return {
-    course:newCourse,
+    course:  course,
     courses: state.courses,
     authors: state.authors,
   }

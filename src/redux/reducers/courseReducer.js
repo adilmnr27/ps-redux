@@ -16,10 +16,11 @@ export default function courseReducer(state = initialState.courses, action) {
 
         //please read normalizing state shape for better performance
 
-        case actionTypes.UPDATE_COURSE:
-            state.map(course=>course.id===action.course.id?action.course:course)//return is implied as it is a single expression without curly brackets
+        case actionTypes.UPDATE_COURSE_SUCCESS:
             
-            return state;
+            return state.map(course=>course.id===action.course.id?action.course:course)//return is implied as it is a single expression without curly brackets
+            
+           
 
         case actionTypes.LOAD_COURSES_SUCCESS:
             return action.courses;

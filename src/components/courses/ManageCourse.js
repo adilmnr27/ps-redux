@@ -7,7 +7,7 @@ import CourseForm from "./CourseForm";
 import { newCourse, authors } from '../../../tools/mockData'
 import { saveCourse } from "../../api/courseApi";
 import Spinner from "../common/Spinner"
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 
 function ManageCourse(props) {
   const [course, setCourse] = useState({ ...props.course }) // no need for redux to hold this state
@@ -51,9 +51,16 @@ function ManageCourse(props) {
   function handleSave(event) {
     event.preventDefault();
     setSaving(true);
-    props.saveCourse(course).then(() => { 
+    props.saveCourse(course).then(() => {
+      debugger;
       toast.success("Course Saved");
-      props.history.push("/courses") })
+      props.history.push("/courses")
+    })
+      .catch(error => {
+        debugger;
+        setSaving(false);
+        setErrors({ onSave: error.message });
+      })
 
   }
 

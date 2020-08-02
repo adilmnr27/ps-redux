@@ -1,6 +1,8 @@
 /* Defining the structure of the store and initializing the state*/
 
-export default{
-    courses:[],
-    authors:[]
+
+export default {
+    courses: [],
+    authors: [],
+    apiStatusCallsInProgress: 0
 }

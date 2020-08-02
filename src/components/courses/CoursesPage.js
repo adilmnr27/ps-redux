@@ -4,6 +4,7 @@ import * as courseActions from '../../redux/actions/courseAction';
 import * as authorActions from '../../redux/actions/authorAction';
 import CourseList from './CourseList';
 import { Redirect } from "react-router-dom"
+import Spinner from "../common/Spinner";
 
 class CoursesPage extends React.Component {
   state = {
@@ -23,15 +24,19 @@ class CoursesPage extends React.Component {
   render() {
     return (
       <>
-      {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
+        {this.state.redirectToAddCoursePage && <Redirect to="/course" />}
         <h2>Courses</h2>
-        <button
-          style={{ marginBottom: 20 }}
-          className="btn btn-primary add-course"
-          onClick={() => this.setState({ redirectToAddCoursePage: true })}
-          
-        >Add Course</button>
-        <CourseList courses={this.props.courses}></CourseList>
+        {this.props.loading ? <Spinner></Spinner> : (
+          <>
+          <button
+            style={{ marginBottom: 20 }}
+            className="btn btn-primary add-course"
+            onClick={() => this.setState({ redirectToAddCoursePage: true })}
+
+          >Add Course</button>
+          <CourseList courses={this.props.courses}></CourseList>
+          </>
+        )}
       </>
     );
 
@@ -40,7 +45,7 @@ class CoursesPage extends React.Component {
 
 function mapStateToProps(state) {
   //here we are passing props to the react component
-
+debugger;
   return {
     courses: state.authors.length === 0 ? [] : state.courses.map(_course => {
       return {
@@ -48,7 +53,8 @@ function mapStateToProps(state) {
         authorName: state.authors.find(a => a.id === _course.authorId).name
       }
     }),
-    authors: state.authors
+    authors: state.authors,
+    loading: state.apiStatusCallsInProgress > 0
   }
 }
 

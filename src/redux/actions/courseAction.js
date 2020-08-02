@@ -1,5 +1,6 @@
 import actionTypes from './actionTypes.js';
 import * as courseApi from "../../api/courseApi";
+import {  beginApiCall } from "./apiStatusActions"
 
 export function createCourse(course) {
     return {
@@ -26,6 +27,7 @@ export function loadCourses() {
     // Hence the inner function is going to get dispatch as the argument
     return function (dispatch, getState) {
 
+        dispatch(beginApiCall()); //we want to increment the value of no of calls;
         return courseApi.getCourses()
             .then(courses => {
 
@@ -39,7 +41,9 @@ export function loadCourses() {
 }
 
 export function saveCourse(course) {
+    
     return (dispatch) => {
+        dispatch(beginApiCall());
         return courseApi.saveCourse(course).then(
             course.id 
             ? dispatch(updateCourseSuccess(course)) 
